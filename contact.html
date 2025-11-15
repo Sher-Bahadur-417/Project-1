@@ -20,6 +20,23 @@
     .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
     .cart-content { background: #fff; padding: 20px; width: 400px; border-radius: 10px; }
     footer { background: #333; color: white; text-align: center; padding: 10px; margin-top: 20px; }
+       @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+      }
+    }
+    @media (max-width: 400px) {
+      .cart-content {
+        width: 90%;
+      
+      }
+    }
   </style>
 </head>
 <body>
@@ -79,3 +96,4 @@
   </script>
 </body>
 </html>
+
