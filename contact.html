@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FoodieHub - Contact</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <style>
     * {
       margin: 0;
@@ -16,7 +17,6 @@
     body {
       font-family: Arial, sans-serif;
       background: #f9f9f9;
-      overflow-x: hidden;
     }
 
     /* NAVBAR */
@@ -28,6 +28,7 @@
       padding: 15px 40px;
       border-radius: 15px;
       margin: 10px;
+      position: relative;
     }
 
     nav a img {
@@ -47,7 +48,7 @@
       font-weight: 600;
     }
 
-    /* CART ICON */
+    /* Cart Icon */
     .cart {
       position: relative;
       font-size: 22px;
@@ -65,11 +66,18 @@
       border-radius: 50%;
     }
 
-    /* PAGE HEADER */
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    /* CONTACT PAGE HEADER */
     header h1 {
       text-align: center;
       margin: 20px 0;
-      font-size: 28px;
+      font-size: 30px;
     }
 
     /* CONTACT FORM */
@@ -90,7 +98,6 @@
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      width: 100%;
       font-size: 16px;
     }
 
@@ -133,41 +140,47 @@
       overflow-y: auto;
     }
 
-    /* FOOTER */
     footer {
       background: #333;
       color: white;
       text-align: center;
       padding: 12px;
-      margin-top: 30px;
-      font-size: 14px;
+      margin-top: 20px;
     }
 
+
     /* MOBILE RESPONSIVE */
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
+
       nav {
-        flex-direction: column;
-        gap: 10px;
-        padding: 20px;
-        text-align: center;
+        padding: 15px 20px;
       }
 
       .nav-links {
+        display: none;
         flex-direction: column;
-        gap: 10px;
+        position: absolute;
+        top: 75px;
+        left: 0;
+        width: 100%;
+        background: #28caa7;
+        padding: 20px 0;
+        border-radius: 0 0 15px 15px;
+        text-align: center;
+        z-index: 999;
       }
 
-      nav a img {
-        width: 60px;
+      .nav-links a {
+        padding: 10px 0;
+        font-size: 18px;
       }
 
-      header h1 {
-        font-size: 24px;
+      .nav-links.show {
+        display: flex;
       }
 
-      input,
-      textarea {
-        font-size: 14px;
+      .hamburger {
+        display: block;
       }
     }
   </style>
@@ -179,7 +192,12 @@
   <nav>
     <a href="index2.html"><img src="images (2).jpeg" alt="logo"></a>
 
-    <div class="nav-links">
+    <!-- Hamburger Menu -->
+    <div class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </div>
+
+    <div class="nav-links" id="navLinks">
       <a href="index2.html">Home</a>
       <a href="menu.html">Menu</a>
       <a href="about.html">About</a>
@@ -196,17 +214,17 @@
     <h1>📩 Contact FoodieHub</h1>
   </header>
 
-  <!-- Contact Form -->
+  <!-- CONTACT FORM -->
   <main>
     <form id="contactForm">
       <input type="text" placeholder="Your Name" required>
       <input type="email" placeholder="Your Email" required>
       <textarea rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
+      <button type="submit">Send</button>
     </form>
   </main>
 
-  <!-- Cart Modal -->
+  <!-- CART MODAL -->
   <div class="cart-modal" id="cartModal">
     <div class="cart-content">
       <h2>Your Cart</h2>
@@ -217,13 +235,17 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer>
     <p>© 2025 FoodieHub. All Rights Reserved.</p>
   </footer>
 
   <script>
-    // CART SYSTEM
+    /* HAMBURGER TOGGLE */
+    document.getElementById("hamburger").onclick = () => {
+      document.getElementById("navLinks").classList.toggle("show");
+    };
+
+    /* CART SYSTEM */
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     function updateCartCount() {
@@ -234,15 +256,14 @@
     function renderCart() {
       const cartItems = document.getElementById('cartItems');
       cartItems.innerHTML = "";
-
       let total = 0;
-      cart.forEach((item, i) => {
+
+      cart.forEach((item) => {
         total += item.price * item.qty;
         cartItems.innerHTML += `<p>${item.name} × ${item.qty} - $${(item.price * item.qty).toFixed(2)}</p>`;
       });
 
       document.getElementById('cartTotal').innerText = total.toFixed(2);
-      updateCartCount();
     }
 
     document.getElementById('cartBtn').onclick = () => {
@@ -253,19 +274,12 @@
     document.getElementById('closeCart').onclick = () =>
       document.getElementById('cartModal').style.display = 'none';
 
-    document.getElementById('checkoutBtn').onclick = () => {
-      localStorage.setItem('cart', JSON.stringify(cart));
-      localStorage.setItem('total', cart.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2));
-      window.location.href = "checkout.html";
-    };
-
     updateCartCount();
 
-
-    // CONTACT FORM MESSAGE
+    /* CONTACT FORM ALERT */
     document.getElementById("contactForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      alert("Your message has been sent! Thank you.");
+      alert("Your message has been sent successfully!");
       e.target.reset();
     });
   </script>
